@@ -5,7 +5,9 @@ import base64
 import time 
 import psycopg2
 import u_profile as profile 
-import income 
+import income
+import expense 
+import report
 
 st.set_page_config(
     page_title='Expense-Tracker',
@@ -22,7 +24,7 @@ def logo():
     image_path='icons\icon.png'
     with open(image_path,'rb') as img:
         image=img.read() 
-    st.write(f"""<div style='margin-top: -70px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100%;'>
+    st.write(f"""<div style='margin-top: -45px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100%;'>
             <img src="data:image/png;base64,{base64.b64encode(image).decode()}"  width="150" height="150" style="margin-bottom: 10px; border-radius: 0%; object-fit: cover;"  />
             <p style='margin-bottom:     
             """,unsafe_allow_html=True)
@@ -61,11 +63,11 @@ def landing_page():
             orientation="vertical",menu_title='',
             options=['Profile','Income','Expense','Report'],
             styles={
-        "container": {"padding": "0!important", "background-color": " #333333"},
-        "icon": {"color": "white", "font-size": "25px"}, 
-        "nav-link": {"font-size": "15px", "text-align": "justify", "margin":"0px","margin-top": "0px", "--hover-color": "#595959"},
-        "nav-link-selected": {"background-color": " #00334d"}},
-        icons=['boxes','file-earmark-plus-fill','file-text-fill','chat-square-dots-fill'],key='options')
+        "container": {"padding": "0!important", "background-color": "#6AF624"},
+        "icon": {"color": "black", "font-size": "30px"}, 
+        "nav-link": {"font-size": "15px", "text-align": "justify", "margin":"0px","margin-top": "0px", "--hover-color": "#558B9A"},
+        "nav-link-selected": {"background-color": " #0DA2CC"}},
+        icons=['person','wallet','cart','chat-square-dots-fill'],key='options')
         st.button('Log Out',on_click=logout,use_container_width=True)
 
     return selected
@@ -125,4 +127,8 @@ if __name__=='__main__':
         # st.write(st.session_state.loggedin_user)
         profile.main(st.session_state.loggedin_user) 
     if selected=='Income':
-        income.main()
+        income.add_income_record()
+    if selected=='Expense':
+        expense.add_expense(st.session_state.loggedin_user)
+    if selected=='Report':
+        report.display_report()
