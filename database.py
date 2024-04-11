@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 DATABASE_CONFIG={
     'database':'expense',
     'user':'postgres',
-    'password':'root',
+    'password':'admin',
     'host':'localhost',
     'port':'5432'
 }
