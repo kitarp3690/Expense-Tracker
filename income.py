@@ -18,11 +18,13 @@ def add_income_record():
         selected_date = st.date_input("Date", max_value=datetime.today())
         st.session_state.income_date = selected_date
         category_options = ["Salary", "Stock", "Business"]
-        category = st.selectbox("Category", options=category_options + ["Other"])
-        if category == "Other":
-            category = st.text_input("Other Category")
+        selected_category = st.selectbox("Category", options=category_options + ["Other"])
+        if selected_category == "Other":
+            selected_category = st.text_input("Other Category")
             if selected_category is not None:
                 selected_category=selected_category.strip()
+        if f"increase{selected_category}" not in st.session_state:
+            setattr(st.session_state, f"increase{selected_category}", None)
         description = st.text_area("Description")
         if st.button("Add income"):
             if selected_category not in st.session_state.income_data and selected_category !='':
