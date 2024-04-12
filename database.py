@@ -22,11 +22,11 @@ def get_one(query,place):
     Function to fetch single tuple from database. 
 
     Parameters:
-    query: Any valid sql query 
-    place: plaeholder (st.empty) to display the message 
+        query: Any valid sql query 
+        place: plaeholder (st.empty) to display the message 
 
     Returns:
-    Output tuple. 
+        Output tuple. 
     '''
     conn=db_connect() 
     try:

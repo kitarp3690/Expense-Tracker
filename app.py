@@ -73,9 +73,6 @@ def landing_page():
     return selected
 
 
-
-
-
 def main():
     if 'loggedin' not in st.session_state:
         st.session_state.loggedin=False 
@@ -127,7 +124,7 @@ if __name__=='__main__':
         # st.write(st.session_state.loggedin_user)
         profile.main(st.session_state.loggedin_user) 
     if selected=='Income':
-        income.add_income_record()
+        income.add_income_record(st.session_state.loggedin_user)
     if selected=='Expense':
         expense.add_expense(st.session_state.loggedin_user)
     if selected=='Report':
