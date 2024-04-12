@@ -24,17 +24,25 @@ def add_income_record(user):
         category.append('Other')
         selected_category=' '
         selected_category = st.selectbox("Category", options=category)
+        if 'selected_other' not in st.session_state:
+            st.session_state.selected_other = False
         if selected_category == "Other":
+            #st.session_state.selected_other is to know whether user selected "other" or not
             selected_category = st.text_input("Other Category")
-            if selected_category is not None:
+            if selected_category is not None and selected_category!="" :
+                st.session_state.selected_other = True
                 selected_category=selected_category.strip() 
         if st.button("Add income"):
-            if selected_category not in st.session_state.income_data and selected_category !='':
-                st.session_state.income_data[selected_category] = 0.0
             if selected_category and amount:
                 setattr(st.session_state, f"increase{selected_category}", True)
                 # Update session state with the new expense data
-                st.session_state.income_data[selected_category] += amount
+                if st.session_state.selected_other and selected_category.lower() in [i.lower() for i in category]:
+                    st.session_state.selected_other=False
+                    st.error("Category already exists.Please select it from category")
+                else:
+                    if selected_category not in st.session_state.income_data and selected_category !='':
+                        st.session_state.income_data[selected_category] = 0.0   
+                    st.session_state.income_data[selected_category] += amount
             else:
                 st.error("Please fill in both category and amount.")
 
