@@ -131,4 +131,4 @@ if __name__=='__main__':
     if selected=='Expense':
         expense.add_expense(st.session_state.loggedin_user)
     if selected=='Report':
-        report.display_report()
+        report.show_menu()

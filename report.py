@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import database as db
+from streamlit_option_menu import option_menu
 import plotly.express as px
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
@@ -125,16 +126,16 @@ def display_report():
             else:
                 st.warning("No expense distribution data available.")
 
-
 #-----------------------------------PratikTheGod---------------
-def show_bar_graph_income(username:str, date:datetime):
-    """This function shows the bar graph of income category\n
+def show_bar_graph_income_oneday(username:str, date:datetime):
+    """This function shows the bar graph of one day income category\n
     Args:
         username: User's username
         date: Of which date to show bargraph\n
     Return:
         Prints the graph of income category
     """
+    st.subheader(f"Income of date:{date}")
     con=db.db_connect()
     cursor=con.cursor()
     cursor.execute("select category,amount from income where username=%s and date=%s",(username,date))
@@ -158,9 +159,54 @@ def show_bar_graph_income(username:str, date:datetime):
     st.bar_chart(data)
     con.close()
 
+def show_bar_graph_income_weekly(username:str, date:datetime):
+    """This function shows the bar graph of weekly income category\n
+    Args:
+        username: User's username
+        date: Of which date to show bargraph\n
+    Return:
+        Prints the graph of income category
+    """
+    st.subheader(f"Income of week starting from date:{date}")
+
+def show_bar_graph_expense_oneday(username:str, date:datetime):
+    """This function shows the bar graph of weekly Expense category\n
+    Args:
+        username: User's username
+        date: Of which date to show bargraph\n
+    Return:
+        Prints the graph of Expense category
+    """
+    st.subheader(f"Expense of week starting from date:{date}")
+
+def show_bar_graph_expense_weekly(username:str, date:datetime):
+    """This function shows the bar graph of weekly Expense category\n
+    Args:
+        username: User's username
+        date: Of which date to show bargraph\n
+    Return:
+        Prints the graph of Expense category
+    """
+    st.subheader(f"Expense of week starting from date:{date}")
+
 def show_menu():
-    st.subheader("Single day income")
+    st.subheader("Reports")
+    tab1,tab2=st.tabs(["Income","Expense"])
+    with tab1:
+        options =  st.radio('select',["Single Day Income","Weekly Income"]) 
+        if options =="Single Day Income":
+            date = st.date_input("Date1", max_value=datetime.today())
+            show_bar_graph_income_oneday(st.session_state.loggedin_user,date)
+        elif options=="Weekly Income":
+            show_bar_graph_income_weekly(st.session_state.loggedin_user,date)
+    with tab2:
+        options =  st.radio('select',["Single Day Expense","Weekly Expense"]) 
+        if options =="Single Day Expense":
+            date = st.date_input("Date3", max_value=datetime.today())
+            show_bar_graph_expense_oneday(st.session_state.loggedin_user,date)
+        elif options=="Weekly Expense":
+            show_bar_graph_expense_weekly(st.session_state.loggedin_user,date)
 
 if __name__ == '__main__':
-    show_bar_graph_income('admin','2024-04-12')
+    show_bar_graph_income_oneday('admin','2024-04-12')
     # pass
