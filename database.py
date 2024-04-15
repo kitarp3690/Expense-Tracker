@@ -2,7 +2,7 @@ import psycopg2
 import bcrypt
 import binascii
 from datetime import datetime, timedelta
-
+import streamlit as st
 
 DATABASE_CONFIG={
     'database':'expense',
@@ -258,3 +258,26 @@ def get_expense_distribution():
     finally:
         conn.close()
     return expense_distribution
+
+#------------------PratikTheGod-----------------
+def check_user_existence(username:str):
+    """This function check if username already exists or not\n
+    Args:
+        username: User's username
+    Return:
+        It returns true if username already exists in database otherwise false
+    """
+    try:
+        con=db_connect()
+        cursor=con.cursor()
+        cursor.execute("select * from users where username=%s",(username,))
+        result=cursor.fetchone()
+        if result:
+            return True
+        else:
+            return False
+    except (Exception, psycopg2.DatabaseError) as error:
+        st.error(error)
+    finally:
+        if con is not None:
+            con.close()

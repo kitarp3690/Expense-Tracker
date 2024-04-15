@@ -39,20 +39,23 @@ def signup():
         image=st.file_uploader('Profile Image',type=['jpg','jpeg','png'])
         if st.form_submit_button('Sign Up'):
             placeholder=st.empty()
-            if(image):
-                    image=image.read() 
+            if db.check_user_existence(username):
+                placeholder.error('Username already Used')
             else:
-                image_path = 'icons/def_icon.png'
-                with open(image_path, 'rb') as file:
-                    image = file.read()
-            if name.strip() and username.strip() and password.strip():
-                hash_pw=db.hash_generator(password)
-                db.insert_db(f"insert into users(username, password_hash,name,image) values('{username}','{hash_pw}','{name}',{psycopg2.Binary(image)})",place=placeholder,msg='User Registered')
-            else:
-                placeholder.error('All field required')
-            time.sleep(3)
-            placeholder.empty() 
-            st.rerun()
+                if(image):
+                        image=image.read() 
+                else:
+                    image_path = 'icons/def_icon.png'
+                    with open(image_path, 'rb') as file:
+                        image = file.read()
+                if name.strip() and username.strip() and password.strip():
+                    hash_pw=db.hash_generator(password)
+                    db.insert_db(f"insert into users(username, password_hash,name,image) values('{username}','{hash_pw}','{name}',{psycopg2.Binary(image)})",place=placeholder,msg='User Registered')
+                else:
+                    placeholder.error('All field required')
+                time.sleep(3)
+                placeholder.empty() 
+                st.rerun()
 
 
 

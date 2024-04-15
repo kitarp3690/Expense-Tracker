@@ -156,10 +156,11 @@ def show_bar_graph_income(username:str, date:datetime):
     data=data.set_index("Category")
     st.write(data)
     st.bar_chart(data)
+    con.close()
 
 def show_menu():
     st.subheader("Single day income")
-    
+
 if __name__ == '__main__':
     show_bar_graph_income('admin','2024-04-12')
     # pass
