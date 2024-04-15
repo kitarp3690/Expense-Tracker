@@ -125,6 +125,41 @@ def display_report():
             else:
                 st.warning("No expense distribution data available.")
 
+
+#-----------------------------------PratikTheGod---------------
+def show_bar_graph_income(username:str, date:datetime):
+    """This function shows the bar graph of income category\n
+    Args:
+        username: User's username
+        date: Of which date to show bargraph\n
+    Return:
+        Prints the graph of income category
+    """
+    con=db.db_connect()
+    cursor=con.cursor()
+    cursor.execute("select category,amount from income where username=%s and date=%s",(username,date))
+    rows=cursor.fetchall()
+    rows=dict(rows)
+    st.write(rows)
+    x_axis=[]
+    y_axis=[]
+    for key,value in rows.items():
+        x_axis.append(key)
+        y_axis.append(value)
+    data={
+        "Category":x_axis,
+        "Amount":y_axis
+    }
+    st.write(data)
+    data=pd.DataFrame(data)
+    st.write(data)
+    data=data.set_index("Category")
+    st.write(data)
+    st.bar_chart(data)
+
+def show_menu():
+    st.subheader("Single day income")
+    
 if __name__ == '__main__':
-    # display_report()
-    pass
+    show_bar_graph_income('admin','2024-04-12')
+    # pass
