@@ -159,7 +159,7 @@ def show_bar_graph_income_oneday(username:str, date:datetime):
     st.bar_chart(data)
     con.close()
 
-def show_bar_graph_income_weekly(username:str, date:datetime):
+def show_bar_graph_income_weekly(username:str, start_date:datetime):
     """This function shows the bar graph of weekly income category\n
     Args:
         username: User's username
@@ -167,8 +167,39 @@ def show_bar_graph_income_weekly(username:str, date:datetime):
     Return:
         Prints the graph of income category
     """
-    st.subheader(f"Income of week starting from date:{date}")
-
+    end_date = start_date + timedelta(days=6)  # End date is 6 days after the start date
+    
+    if start_date == datetime.now().date():
+        end_date = start_date # If start date is today, set end date as yesterday
+    
+    st.subheader(f"Income for the period from {start_date} to {end_date}")
+    con = db.db_connect()
+    cursor = con.cursor()
+    
+    # Fetch data for the 7-day period
+    cursor.execute("SELECT category, SUM(amount) FROM income WHERE username=%s AND date BETWEEN %s AND %s GROUP BY category",
+                   (username, start_date, end_date))
+    
+    rows = cursor.fetchall()
+    rows = dict(rows)
+    
+    x_axis = []
+    y_axis = []
+    
+    for key, value in rows.items():
+        x_axis.append(key)
+        y_axis.append(value)
+    
+    data = {
+        "Category": x_axis,
+        "Amount": y_axis
+    }
+    
+    data = pd.DataFrame(data)
+    data = data.set_index("Category")
+    st.bar_chart(data)
+    con.close()
+    
 def show_bar_graph_expense_oneday(username:str, date:datetime):
     """This function shows the bar graph of weekly Expense category\n
     Args:
@@ -198,6 +229,7 @@ def show_menu():
             date = st.date_input("Date1", max_value=datetime.today())
             show_bar_graph_income_oneday(st.session_state.loggedin_user,date)
         elif options=="Weekly Income":
+            date = st.date_input("Date1", max_value=datetime.today())
             show_bar_graph_income_weekly(st.session_state.loggedin_user,date)
     with tab2:
         options =  st.radio('select',["Single Day Expense","Weekly Expense"]) 
