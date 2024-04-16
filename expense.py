@@ -21,9 +21,11 @@ def add_expense(user):
         category=[opt[0] for opt in category_options]
         category.append('Other')
         selected_category=' '
-        selected_category = st.selectbox("Category", options=category, index=None)
         if 'selected_other' not in st.session_state:
             st.session_state.selected_other = False
+        def change_selected_other():
+            st.session_state.selected_other=False
+        selected_category = st.selectbox("Category", options=category, on_change=change_selected_other)
         if selected_category == "Other":
             selected_category = st.text_input("Enter Custom Category")
             if selected_category is not None and selected_category!='':
@@ -38,8 +40,15 @@ def add_expense(user):
                     st.error("Category already exists.Please select it from category")
                 else:
                     if selected_category not in st.session_state.expense_data and selected_category !='':
-                        st.session_state.expense_data[selected_category] = 0.0   
-                    st.session_state.expense_data[selected_category] += amount
+                        if selected_category.lower() in [i.lower() for i in st.session_state.expense_data.keys()]:
+                            st.error("Category already included.Please first save expense to add in this category.")
+                        else:
+                            st.session_state.expense_data[selected_category] = 0.0
+                            st.session_state.expense_data[selected_category] += amount
+                        st.session_state.selected_other=False
+                    else:
+                        st.session_state.expense_data[selected_category] += amount
+                        st.session_state.selected_other=False
             else:
                 st.error("Please fill in both category and amount.")
     

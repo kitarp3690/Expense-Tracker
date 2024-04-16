@@ -171,7 +171,9 @@ def show_bar_graph_income_weekly(username:str, start_date:datetime):
     
     if start_date == datetime.now().date():
         end_date = start_date # If start date is today, set end date as yesterday
-    
+    if end_date>datetime.now().date():
+        end_date = datetime.now().date()
+
     st.subheader(f"Income for the period from {start_date} to {end_date}")
     con = db.db_connect()
     cursor = con.cursor()
@@ -208,7 +210,7 @@ def show_bar_graph_expense_oneday(username:str, date:datetime):
     Return:
         Prints the graph of Expense category
     """
-    st.subheader(f"Expense of week starting from date:{date}")
+    st.subheader(f"Expense of date:{date}")
     con=db.db_connect()
     cursor=con.cursor()
     cursor.execute("select category,amount from expenses where username=%s and date=%s",(username,date))
