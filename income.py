@@ -77,7 +77,6 @@ def add_income_record(user):
             #saving to table income_head in db when user press Save income button  
             existing_categories = [opt[0] for opt in category_options]
             if selected_category.lower() not in [cat.lower() for cat in existing_categories]:
-                # db.insert_db(f"INSERT INTO income_head (head) VALUES ('{selected_category}')", place=placeholder)
                 cursor.execute("INSERT INTO income_head (head) VALUES (%s)", (selected_category,))
                 conn.commit()
             #also saving to table income in db when user press Save income button  
