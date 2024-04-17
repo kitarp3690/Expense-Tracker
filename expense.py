@@ -77,7 +77,6 @@ def add_expense(user):
                 conn.commit()
             cursor.execute("SELECT amount, category FROM expenses WHERE date = %s AND username = %s", (st.session_state.expense_date, user))
             existing_records = cursor.fetchall()
-            st.write(st.session_state)
             for category,amount in st.session_state.expense_data.items():    
                 for existing_amount,existing_category in existing_records:
                     if category.lower() == existing_category.lower():
@@ -86,7 +85,8 @@ def add_expense(user):
                         break
                 else:
                     cursor.execute("INSERT INTO expenses (amount, date, category, username) VALUES (%s, %s, %s, %s)", (amount, st.session_state.expense_date, category, user))
-                del st.session_state['expense_data']
+                if 'expense_data' in st.session_state:
+                    del st.session_state['expense_data']
             conn.commit()
             conn.close()
     

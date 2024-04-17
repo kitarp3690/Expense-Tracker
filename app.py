@@ -30,7 +30,6 @@ def logo():
             """,unsafe_allow_html=True)
     st.write("<p style='font-weight: bold; font-size: 30px; text-align: center; color: green'> Expense Tracker </p>",unsafe_allow_html=True)
 
-
 def signup():
     with st.form("Signup Form",clear_on_submit=True,border=True):
         name=st.text_input('Full Name:',label_visibility='collapsed',placeholder='Full Name')
@@ -57,8 +56,6 @@ def signup():
                 placeholder.empty() 
                 st.rerun()
 
-
-
 def landing_page():
     with st.sidebar:
         logo()
@@ -74,7 +71,6 @@ def landing_page():
         st.button('Log Out',on_click=logout,use_container_width=True)
 
     return selected
-
 
 def main():
     if 'loggedin' not in st.session_state:
@@ -117,9 +113,6 @@ def main():
 
     if st.session_state.loggedin:
         return landing_page() 
-
-
-
 
 if __name__=='__main__':
     selected=main()

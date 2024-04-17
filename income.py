@@ -75,22 +75,14 @@ def add_income_record(user):
             conn = db.db_connect()
             cursor = conn.cursor()
             #saving to table income_head in db when user press Save income button  
-            # placeholder=st.empty() 
             existing_categories = [opt[0] for opt in category_options]
             if selected_category.lower() not in [cat.lower() for cat in existing_categories]:
                 # db.insert_db(f"INSERT INTO income_head (head) VALUES ('{selected_category}')", place=placeholder)
                 cursor.execute("INSERT INTO income_head (head) VALUES (%s)", (selected_category,))
                 conn.commit()
             #also saving to table income in db when user press Save income button  
-            # conn=db.db_connect()
-            # cursor=conn.cursor()       
-            # cursor.execute(f"select date,amount,category,username from income where date='{st.session_state.income_date}' and username='{user}'   ") 
             cursor.execute("SELECT amount, category FROM income WHERE date = %s AND username = %s", (st.session_state.income_date, user))
             existing_records = cursor.fetchall()
-            # store=cursor.fetchall()
-            # conn.close()    
-            # st.write() 
-            st.write(st.session_state)
             for category,amount in st.session_state.income_data.items():    
                 for existing_amount,existing_category in existing_records:
                     if category.lower() == existing_category.lower():
@@ -100,7 +92,9 @@ def add_income_record(user):
                 else:
                     # If the category doesn't exist, insert a new record
                     cursor.execute("INSERT INTO income (amount, date, category, username) VALUES (%s, %s, %s, %s)", (amount, st.session_state.income_date, category, user))
-                del st.session_state.income_data
+                # del st.session_state.income_data
+                if 'income_data' in st.session_state:
+                    del st.session_state.income_data
             # Commit the transaction and close the connection
             conn.commit()
             conn.close()
@@ -117,7 +111,6 @@ def add_income_record(user):
         cursor=conn.cursor()       
         cursor.execute(f"select amount,category from income where date='{st.session_state.income_date}' and username='{user}'   ") 
         store=cursor.fetchall()
-        # st.write(store)
         total_income=0
         for income, category in store:
             cs1.write(f'<p style="color: black; font-size: 15px; margin-bottom: 5px;text-align: left; margin-top: -5px">{category}</p>', unsafe_allow_html=True)

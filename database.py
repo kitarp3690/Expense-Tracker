@@ -16,7 +16,6 @@ def db_connect():
     conn=psycopg2.connect(**DATABASE_CONFIG)
     return conn 
 
-
 def get_one(query,place):
     '''
     Function to fetch single tuple from database. 
@@ -41,7 +40,6 @@ def get_one(query,place):
             conn.close() 
         return result
 
-
 def get_all(query,place):
     '''
     Function to fetch all tuple from database. 
@@ -65,7 +63,6 @@ def get_all(query,place):
             cur.close() 
             conn.close() 
         return result
-
 
 def insert_db(query,place,msg=None):
     '''
@@ -98,10 +95,8 @@ def hash_generator(password):
     password_hashed=binascii.hexlify(password_hash).decode('utf-8')
     return password_hashed
 
-
 def check_pw(password,db_pwd):
     return bcrypt.checkpw(password.encode(),binascii.unhexlify(db_pwd))
-
 
 # Function to update user's password
 def update_password(username, new_password):
