@@ -1,5 +1,5 @@
 
-#Expense-Tracker 
+# Expense-Tracker 
 
 This is a simple application developed using python with streamlit framework and postgresql. This application can track income, expense and show barchart according to it.
 
