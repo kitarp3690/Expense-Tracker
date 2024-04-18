@@ -132,7 +132,6 @@ def update_profile_picture(username, new_image,slot,msg=None):
         if conn is not None:
             conn.close()
 
-
 # # for income section
 # def insert_income_record(amount, date, category, description):
 #     conn = db_connect()
@@ -255,7 +254,7 @@ def update_profile_picture(username, new_image,slot,msg=None):
 #     return expense_distribution
 
 #------------------PratikTheGod-----------------
-def check_user_existence(username:str):
+def check_user_existence(username:str): 
     """This function check if username already exists or not\n
     Args:
         username: User's username

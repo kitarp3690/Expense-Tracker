@@ -97,6 +97,7 @@ def add_income_record(user):
             # Commit the transaction and close the connection
             conn.commit()
             conn.close()
+            # st.rerun()
 
     #This is to show user previous stored data of that date 
     with c2.container(border=True):
@@ -119,6 +120,7 @@ def add_income_record(user):
         cs1.write(f'<p style="color: black; font-size: 15px; margin-bottom: 5px;text-align: left; margin-top: -5px">Total : </p>', unsafe_allow_html=True)
         cs2.write(f'<p style="color: black; font-size: 15px; margin-bottom: 5px;text-align: right;margin-top: -5px ">{total_income}</p>', unsafe_allow_html=True)
         st.write('')
-        
+        conn.close()
+
 if __name__ == "__main__":
     pass

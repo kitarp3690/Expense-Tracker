@@ -103,7 +103,7 @@ def main():
                                 place3.empty()
                                 st.rerun() 
                             else:
-                                placeholder.error('Invalid')
+                                placeholder.error('Invalid Password')
                         else:
                             placeholder.error('User Not Found')
                         time.sleep(3)

@@ -89,6 +89,7 @@ def add_expense(user):
                     del st.session_state['expense_data']
             conn.commit()
             conn.close()
+            # st.rerun()
     
     #This is to show user previous stored data of that date 
     with c2.container(border=True):
