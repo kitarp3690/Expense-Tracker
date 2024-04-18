@@ -97,7 +97,6 @@ def add_income_record(user):
             # Commit the transaction and close the connection
             conn.commit()
             conn.close()
-            # st.rerun()
 
     #This is to show user previous stored data of that date 
     with c2.container(border=True):

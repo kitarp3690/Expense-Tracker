@@ -117,7 +117,6 @@ def main():
 if __name__=='__main__':
     selected=main()
     if selected=='Profile':
-        # st.write(st.session_state.loggedin_user)
         profile.main(st.session_state.loggedin_user) 
     if selected=='Income':
         income.add_income_record(st.session_state.loggedin_user)

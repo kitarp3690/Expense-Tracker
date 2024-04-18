@@ -46,8 +46,7 @@ def main(user):
                     
 
                 if image:
-                    # Update profile picture in the database
-                    
+                    # Update profile picture in the database                    
                     db.update_profile_picture(user, image.read(),place,msg="Profile Image Updated")
                     # place.success('Profile picture updated successfully')
                 elif not image and not (old_pwd.strip() and new_pwd.strip() and confirm.strip()):
