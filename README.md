@@ -51,5 +51,5 @@ Expense tracker uses PostgreSQL as its database management system. Follow these 
 
 - [Murari Pandey](https://github.com/10murari/)
 - [Pratik Shrestha](https://github.com/kitarp3690)
-- [Kripesh Bhele]
-.(https://github.com/Krio69).
+- [Kripesh Bhele](https://github.com/Krio69)
+
